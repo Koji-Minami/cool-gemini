@@ -1,0 +1,6 @@
+.venv
+__pycache__
+*workspace
+GazoMitsu.pdf
+records.mp3
+.env
