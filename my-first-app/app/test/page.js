@@ -21,6 +21,7 @@ export default function Component() {
   const [newMessage, setNewMessage] = useState('')
   const [tablebody,setTableBody] = useState([])
   const [tableindex, setTableIndex] = useState([])
+  const [pdfURL, setPdfUrl] = useState(null);
 
 
   const handleAudioChange = (event) => {
@@ -29,6 +30,7 @@ export default function Component() {
 
   const handlePdfChange = (event) => {
     setPdfFile(event.target.files[0]);
+    setPdfUrl(URL.createObjectURL(event.target.files[0]));
   };
 
   const makeIndex = (jsonArray) => {
@@ -197,10 +199,18 @@ export default function Component() {
                 PDF Viewer
               </CardTitle>
             </CardHeader>
+            {pdfURL ? (               
             <CardContent className="h-[calc(100vh-12rem)] flex flex-col items-center justify-center bg-gray-100 text-gray-500">
+              <iframe src={pdfURL} title="PDF Viewer"/>
+            </CardContent>    
+            ):(     
+           <CardContent className="h-[calc(100vh-12rem)] flex flex-col items-center justify-center bg-gray-100 text-gray-500">
               <FileUp className="w-12 h-12 mb-4" />
               <p className="text-center">No PDF uploaded yet. Upload a PDF file to view its contents here.</p>
             </CardContent>
+
+            )}
+
           </Card>
           </div>
           </div>

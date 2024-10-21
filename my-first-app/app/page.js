@@ -9,6 +9,7 @@ export default function Home() {
   const [message, setMessage] = useState("Upload an MP3");
   const [audiofile, setAudioFile] = useState(null);
   const [pdffile, setPdfFile] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState(null);
 
   const handleAudioChange = (event) => {
     setAudioFile(event.target.files[0]);
@@ -16,6 +17,7 @@ export default function Home() {
 
   const handlePdfChange = (event) => {
     setPdfFile(event.target.files[0]);
+    setPdfUrl(URL.createObjectURL(event.target.files[0]))
   };
 
   const handleSubmit = async (event) => {
@@ -59,6 +61,15 @@ export default function Home() {
       </form>
       <p>{message}</p>
       <Button>Click me</Button>
+      {pdfUrl && (
+        <iframe
+          src={pdfUrl}
+          width="800px"
+          height="600px"
+          title="PDF Viewer"
+        />
+      )}
+      
     </div>
   );
 }
