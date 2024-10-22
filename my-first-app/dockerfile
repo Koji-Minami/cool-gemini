@@ -1,0 +1,27 @@
+
+# Use a Node.js base image
+FROM node:18-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json (if it exists)
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Build the Next.js app
+RUN npm run build
+
+# If you are using a custom server, uncomment the next line and adjust the command
+CMD ["npm", "run", "start"]
+
+# For static export, serve the out directory
+# CMD ["npx", "serve", "out"]
+
+# Expose the port the app runs on (default 3000 for `serve` command, change if needed)
+EXPOSE 3000

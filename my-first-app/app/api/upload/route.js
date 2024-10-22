@@ -8,7 +8,7 @@ export async function POST(req) {
     const sendForm = new FormData();
     sendForm.append('audio',audiofile);
     sendForm.append('pdf',pdffile);
-    const response = await fetch('http://127.0.0.1:5000/upload',{
+    const response = await fetch('https://mybackend-732318641740.us-central1.run.app/upload',{
         method: "POST",
         body: formData,
     });
