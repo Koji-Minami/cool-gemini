@@ -22,6 +22,83 @@ import base64
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part, SafetySetting
 
+def generating():
+    vertexai.init(project="qwiklabs-asl-02-26483600cdad", location="us-central1")
+    model = GenerativeModel(
+        "gemini-1.5-pro-002",
+    )
+    generation_config = {
+        "max_output_tokens": 8192,
+        "temperature": 1,
+        "top_p": 0.95,
+        "response_mime_type": "application/json"
+    }
+
+    safety_settings = [
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+    ]
+    text='''こんにちわ。AIの専門家の役で自己紹介を300文字程度でしてください!'''
+    responses = model.generate_content(
+    [text],
+    generation_config=generation_config,
+    safety_settings=safety_settings,
+    )
+    return responses
+
+def streaming():
+    vertexai.init(project="qwiklabs-asl-02-26483600cdad", location="us-central1")
+    model = GenerativeModel(
+        "gemini-1.5-pro-002",
+    )
+    generation_config = {
+        "max_output_tokens": 8192,
+        "temperature": 1,
+        "top_p": 0.95,
+        "response_mime_type": "application/json"
+    }
+
+    safety_settings = [
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+    ]
+    text='''こんにちわ。AIの専門家の役で自己紹介を300文字程度でしてください!'''
+    responses = model.generate_content(
+    [text],
+    generation_config=generation_config,
+    safety_settings=safety_settings,
+    stream=True,
+    )
+    return responses
+
 
 def generate(audiofile,pdffile):
     print("開始")
@@ -97,3 +174,6 @@ def generate(audiofile,pdffile):
 
 
     return json.loads(responses.text)
+
+
+

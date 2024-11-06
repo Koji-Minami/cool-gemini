@@ -14,6 +14,7 @@ import { FileAudio, FileText, Menu, MessageSquare, X, Send, FileUp  } from "luci
 export default function Component() {
   const [message, setMessage] = useState("Upload an MP3");
   const [audiofile, setAudioFile] = useState(null);
+  const [audiofilename, setAudioFileName] = useState('temp.mp3')
   const [pdffile, setPdfFile] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [transcriptOpen, setTranscriptOpen] = useState(false)
@@ -28,6 +29,8 @@ export default function Component() {
 
   const handleAudioChange = (event) => {
     setAudioFile(event.target.files[0]);
+    setAudioFileName(event.target.files[0].name);
+    console.log(audiofilename);
   };
 
   const handlePdfChange = (event) => {
@@ -200,8 +203,8 @@ export default function Component() {
             </Card>
             </div>
         </div>
-        <div className="basis-1/3">
-        <Card>
+        <div className="basis-1/3 ">
+        <Card className='h-[calc(100vh-6rem)]'>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
@@ -209,17 +212,16 @@ export default function Component() {
               </CardTitle>
             </CardHeader>
             {pdfURL ? (               
-            <CardContent className="h-[calc(100vh-10rem)] flex flex-col items-center justify-center bg-gray-100 text-gray-500">
+            <CardContent className=" flex flex-col items-center justify-center bg-gray-100 text-gray-500 h-[calc(100vh-12rem)]">
               <iframe className="w-full h-full" src={pdfURL} title="PDF Viewer"/>
             </CardContent>    
             ):(     
-           <CardContent className="h-[calc(100vh-9.5rem)] flex flex-col items-center justify-center bg-gray-100 text-gray-500">
-              <FileUp className="w-12 h-12 mb-4" />
+           <CardContent className="flex flex-col items-center justify-center bg-gray-100 text-gray-500 h-[calc(100vh-12rem)]">
+              <FileUp className="w-12  mb-4" />
               <p className="text-center">No PDF uploaded yet. Upload a PDF file to view its contents here.</p>
             </CardContent>
 
             )}
-
           </Card>
           </div>
           </div>

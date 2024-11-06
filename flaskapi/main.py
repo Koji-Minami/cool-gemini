@@ -1,4 +1,4 @@
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify,request,Response
 from flask_cors import CORS
 from google.cloud import aiplatform
 from vertexai.generative_models import (
@@ -12,7 +12,9 @@ from vertexai.generative_models import (
     Tool,
 )
 
-from test import  generate
+import time
+
+from test import  (generate, generating,streaming)
 print(aiplatform.__version__)
 
 
@@ -23,8 +25,22 @@ CORS(app)
 
 @app.route("/")
 def hello():
-    data = {"text":"Hello Flask"}
+    responses = generating()
+    data = {"text":responses.text}
     return jsonify(data)
+
+@app.route('/stream')
+def stream():
+    def stream_content():
+        responses = streaming()
+        for response in responses: # chunk_size=Noneでストリーミング受信
+            for chunk in response.text:
+                full_text += chunk
+                message = {"text":chunk, "full_text":full_text}
+                yield f"data: {json.dumps(message)}\n\n"  # SSEのフォーマット
+                # time.sleep(0.1) # 必要に応じて遅延を追加
+
+    return Response(stream_content(), mimetype="text/event-stream")
 
 @app.route("/upload",methods=["POST"])
 def upload():
