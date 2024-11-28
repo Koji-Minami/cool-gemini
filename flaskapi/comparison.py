@@ -24,6 +24,9 @@ from vertexai.generative_models import GenerativeModel, Part, SafetySetting
 
 
 def generate():
+    '''
+    
+    '''
     vertexai.init(project="qwiklabs-asl-02-26483600cdad", location="us-central1")
     model = GenerativeModel(
         "gemini-1.5-pro-002",

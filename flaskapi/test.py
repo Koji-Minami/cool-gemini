@@ -8,7 +8,7 @@ from vertexai.generative_models import (
     SafetySetting
 )
 
-
+from werkzeug.datastructures import FileStorage  
 
 import os,base64,json
 from dotenv import load_dotenv
@@ -100,7 +100,15 @@ def streaming():
     return responses
 
 
-def generate(audiofile,pdffile):
+def generate(audiofile: FileStorage,pdffile: FileStorage):
+    '''
+    音声ファイルとpdfファイルを受け取り、内容を比較して結果をjsonl形式で返す。
+    Args:
+        audiofile(FileStorage): フロントからformDataで送られてきた音声ファイル
+        pdffile(FileStorage): フロントからformDataで送られてきたpdfファイル
+    Returns:
+        response.text(json): 比較結果のjsonl
+    '''
     print("開始")
     vertexai.init(project="qwiklabs-asl-02-26483600cdad", location="us-central1")
     model = GenerativeModel(
